@@ -1,25 +1,53 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Booklist from './components/Booklist';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 
-function App() {
+
+const getDataFromAPI = async keyword => {
+  const requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=intitle:'
+  const result = await axios.get(`${requestUrl}${keyword}`);
+  return result;
+}
+
+const App = () => {
+  const languages = ['React', 'Vue', 'Angular'];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+    <div>
+      <h1>react app</h1>
+      <ul>
+        <li><Link to='/'>React</Link></li>
+        <li><Link to='/vue'>Vue</Link></li>
+        <li><Link to='/angular'>Angular</Link></li>
+      </ul>
+      <hr />
+      <Route exact path='/' 
+        render={props => 
+          <Booklist 
+            language={languages[0]} 
+            getData={keyword => getDataFromAPI(keyword)} 
+          />
+        }
+      />
+      <Route path='/vue' 
+        render={props => 
+          <Booklist 
+            language={languages[1]} 
+            getData={keyword => getDataFromAPI(keyword)} 
+          />
+        } 
+      />
+      <Route path='/angular' 
+        render={props => 
+          <Booklist 
+            language={languages[2]} 
+            getData={keyword => getDataFromAPI(keyword)} 
+          />
+        } 
+      />
     </div>
+    </BrowserRouter>
   );
 }
 
