@@ -12,7 +12,7 @@ const Booklist = props => {
         {
           bookData === null
             ? <p>now loading...</p>
-        : bookData.data.items.map((x, index) => <li key={index}>{x.volumeInfo.title}{' '}{x.volumeInfo.authors}<br></br><img src={x.volumeInfo.imageLinks.thumbnail} /></li>)
+        : bookData.data.items.map((x, index) => <li key={index}>{x.volumeInfo.title}{' '}{x.volumeInfo.authors}<br></br><img src={ x.volumeInfo.readingModes.image ? x.volumeInfo.imageLinks.thumbnail : 'no-image' } /></li>)
         }
       </ul>
     </div>
